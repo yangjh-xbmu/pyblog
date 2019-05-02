@@ -123,6 +123,11 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# 指定额外的位于app之外的静态文件存放地点，可以多个，Django会自动在指定的多个地址寻找合适的文件。
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+# 指定上传文件存放地址
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

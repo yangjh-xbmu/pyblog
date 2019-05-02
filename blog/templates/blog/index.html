@@ -1,2 +1,27 @@
 {% extends 'blog/base.html' %}
 {% block title %}博客首页{% endblock %}
+{% block main %}
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-sm-9">
+                {% for entry in entries %}
+                    <h2><a href="{{ entry.id }}">{{ entry.title }}</a></h2>
+                    <p>
+                        <span>作者：{{ entry.author }}</span>
+                        <span>发表于：{{ entry.created_time }}</span>
+                        <span>访问量：{{ entry.visited }}</span>
+                    </p>
+                    {% if entry.img %}
+                        <div><img src="{{ entry.img.url }}" alt="博客配图" class="blog-img"></div>
+                    {% endif %}
+                    {% if entry.abstract %}
+                        <p>{{ entry.abstract }}</p>
+                    {% else %}
+                        <p>{{ entry.body|truncatechars:60 }}...</p>
+                    {% endif %}
+
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+{% endblock %}

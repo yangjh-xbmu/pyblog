@@ -41,6 +41,10 @@ class Entry(models.Model):
     def __str__(self):
         return self.title
 
+    def increate_visited(self):
+        self.visited += 1
+        self.save(update_fields=['visited'])
+
     class Meta:
         ordering = ['-created_time']
         verbose_name = '条目'

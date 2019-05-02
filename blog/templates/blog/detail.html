@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>博客详情页面</title>
-</head>
-<body>
-<h1>博客{{ blog_id }}详情页面</h1>
-</body>
-</html>
+{% extends 'blog/base.html' %}
+{% block title %}{{ entry.title }}--博客正文页面{% endblock %}
+{% block main %}
+    <div class="main container">
+        <div class="row">
+            <div class="col-sm-9">
+                <h1>{{ entry.title }}</h1>
+                <p>
+                    <span>作者：{{ entry.author }}</span>
+                    <span>发布于：{{ entry.created_time }}</span>
+                    <span>访问量：{{ entry.visited }}</span>
+                    <span>分类：
+                        {% for category in entry.category.all %}
+                            {{ category.name }}
+                        {% endfor %}
+                    </span>
+                    <span>标签：
+                        {% for tag in entry.tag.all %}
+                            {{ tag.name }}
+                        {% endfor %}
+                    </span>
+                </p>
+                {% if entry.img %}
+                    <div><img src="{{ entry.img.url }}" alt="博客配图" class="blog-img"></div>
+                {% endif %}
+                <div>{{ entry.body }}</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
