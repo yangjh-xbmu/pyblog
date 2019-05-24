@@ -4,23 +4,83 @@
     <main role="main" class="container">
         <div class="row">
             <div class="col-sm-9">
-                {% for entry in entries %}
-                    <h2><a href="{{ entry.id }}">{{ entry.title }}</a></h2>
-                    <p>
-                        <span>作者：{{ entry.author }}</span>
-                        <span>发表于：{{ entry.created_time }}</span>
-                        <span>访问量：{{ entry.visited }}</span>
-                    </p>
-                    {% if entry.img %}
-                        <div><img src="{{ entry.img.url }}" alt="博客配图" class="blog-img"></div>
-                    {% endif %}
-                    {% if entry.abstract %}
-                        <p>{{ entry.abstract }}</p>
-                    {% else %}
-                        <p>{{ entry.body|truncatechars:60 }}...</p>
-                    {% endif %}
+                <div class="blog-lists">
+                    {% for entry in entry_list %}
+                        <h2><a href="{{ entry.id }}">{{ entry.title }}</a></h2>
+                        <p>
+                            <span>作者：{{ entry.author }}</span>
+                            <span>发表于：{{ entry.created_time }}</span>
+                            <span>访问量：{{ entry.visited }}</span>
+                        </p>
+                        {% if entry.img %}
+                            <div><img src="{{ entry.img.url }}" alt="博客配图" class="blog-img"></div>
+                        {% endif %}
+                        {% if entry.abstract %}
+                            <p>{{ entry.abstract }}</p>
+                        {% else %}
+                            <p>{{ entry.body|truncatechars:60 }}...</p>
+                        {% endif %}
 
-                {% endfor %}
+                    {% endfor %}
+                </div>
+                <div id="paginator" class="pull-right">
+                    <ul class="pagination">
+                        {% if entry_list.has_previous %}
+                            <li class="page-item"><a class="page-link"
+                                                     href="?page={{ entry_list.previous_page_number }}"><i
+                                    class="fa fa-chevron-left"></i>前一页</a></li>
+                        {% endif %}
+
+                        {% if first %}
+                            <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                        {% endif %}
+
+                        {% if left %}
+                            {% if left_has_more %}
+                                <span>...</span>
+                            {% endif %}
+
+                            {% for i in left %}
+                                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                            {% endfor %}
+                        {% endif %}
+
+
+                        <li class="page-item active"><a class="page-link" href="?page={{ entry_list.number }}"
+                        >{{ entry_list.number }}</a></li>
+
+                        {% if right %}
+                            {% for i in right %}
+                                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                            {% endfor %}
+
+                            {% if right_has_more %}
+                                <span>...</span>
+                            {% endif %}
+                        {% endif %}
+
+                        {% if last %}
+                            <li class="page-item"><a class="page-link" href="?page={{ entry_list.num_pages }}"
+                            >{{ entry_list.num_pages }}</a></li>
+                        {% endif %}
+
+                        {% if entry_list.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page={{ entry_list.next_page_number }}">下一页<i
+                                    class="fa fa-chevron-right"></i></a></li>
+                        {% endif %}
+                    </ul>
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </main>

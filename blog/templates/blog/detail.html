@@ -1,5 +1,9 @@
 {% extends 'blog/base.html' %}
+{% load static %}
 {% block title %}{{ entry.title }}--博客正文页面{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'blog/css/styles.css' %}">
+{% endblock %}
 {% block main %}
     <div class="main container">
         <div class="row">
@@ -11,19 +15,20 @@
                     <span>访问量：{{ entry.visited }}</span>
                     <span>分类：
                         {% for category in entry.category.all %}
-                            {{ category.name }}
+                            <a href="#">{{ category.name }}</a>
                         {% endfor %}
                     </span>
                     <span>标签：
                         {% for tag in entry.tag.all %}
-                            {{ tag.name }}
+                            <a href="#">{{ tag.name }}</a>
                         {% endfor %}
                     </span>
                 </p>
                 {% if entry.img %}
                     <div><img src="{{ entry.img.url }}" alt="博客配图" class="blog-img"></div>
                 {% endif %}
-                <div>{{ entry.body }}</div>
+                <div>{{ entry.toc|safe }}</div>
+                <div>{{ entry.body|safe }}</div>
             </div>
         </div>
     </div>
