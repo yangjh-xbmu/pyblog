@@ -15,12 +15,12 @@
                     <span>访问量：{{ entry.visited }}</span>
                     <span>分类：
                         {% for category in entry.category.all %}
-                            <a href="#">{{ category.name }}</a>
+                            <a href="{% url 'blog:blog_category' category.id %}">{{ category.name }}</a>
                         {% endfor %}
                     </span>
                     <span>标签：
                         {% for tag in entry.tag.all %}
-                            <a href="#">{{ tag.name }}</a>
+                            <a href="{% url 'blog:blog_tag' tag.id %}">{{ tag.name }}</a>
                         {% endfor %}
                     </span>
                 </p>
