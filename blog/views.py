@@ -2,6 +2,7 @@ from django.shortcuts import render
 from . import models
 import markdown
 import pygments
+from django.db.models.query import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
@@ -164,5 +165,20 @@ def tag(request, tag_id):
     page = request.GET.get('page', 1)
     entry_list, paginator = make_paginator(entries, page)
     page_data = pagination_data(paginator, page)
+
+    return render(request, 'blog/index.html', locals())
+
+
+def search(request):
+    keyword = request.GET.get('keyword', default=None)
+    if keyword is not None:
+        entries = models.Entry.objects.filter(Q(title__icontains=keyword) |
+                                              Q(body__icontains=keyword) |
+                                              Q(abstract__icontains=keyword))
+        page = request.GET.get('page', 1)
+        entry_list, paginator = make_paginator(entries, page)
+        page_data = pagination_data(paginator, page)
+    else:
+        error_massage = '请输入关键词'
 
     return render(request, 'blog/index.html', locals())
